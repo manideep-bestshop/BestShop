@@ -29,7 +29,7 @@ namespace BestShop.Pages
         public string Email { get; set; } = "";
 
         [BindProperty]
-        [RegularExpression("^[a-zA-Z]*$", ErrorMessage = "Only Alphabets allowed.")]
+        [RegularExpression("^[0-9]*$", ErrorMessage = "Only numbers allowed.")]
         public string Phone { get; set; } = "";
 
         [BindProperty,Required]

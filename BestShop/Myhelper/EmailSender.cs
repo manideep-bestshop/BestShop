@@ -8,10 +8,10 @@ namespace BestShop.Myhelper
         public static async Task SendEmail(string toEmail,string username,string subject
             ,string message)
         {
-            string apiKey = "";
+            string apiKey = "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";
             var client=new SendGridClient(apiKey);
 
-            var from=new EmailAddress("manideep.n15@gmail.com","BestShop.com");
+            var from=new EmailAddress("boostmytool@gmail.com", "BestShop.com");
             var to = new EmailAddress(toEmail, username);
             var plainTextContent = message;
             var htmlContent = "";

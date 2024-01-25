@@ -14,7 +14,7 @@ namespace BestShop.Pages.Admin.Messages
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;Initial Catalog=bestshop;Integrated Security=True;";
+                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
