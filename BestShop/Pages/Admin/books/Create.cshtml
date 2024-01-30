@@ -1,5 +1,5 @@
 ﻿@page
-@model BestShop.Pages.Admin.books.Index1Model
+@model BestShop.Pages.Admin.books.CreateModel
 @{
 }
 <h2 class="my-3">New Book</h2>
@@ -18,7 +18,6 @@ else if (Model.successMessage.Length > 0)
         <button type='button' class='btn-close' data-bs-dismiss='alert' aria-label='Close'></button>
     </div>
 }
-
 <form method="POST" enctype="multipart/form-data">
     <div class="row mb-3">
         <label class="col-sm-3 col-form-label">Title</label>
@@ -53,7 +52,7 @@ else if (Model.successMessage.Length > 0)
     </div>
 
     <div class="row mb-3">
-        <label class="col-sm-3 col-form-label">Price ($)</label>
+        <label class="col-sm-3 col-form-label">Price</label>
         <div class="col-sm-6">
             <input class="form-control" asp-for="Price" />
             <span asp-validation-for="Price" class="text-danger"></span>
@@ -96,7 +95,7 @@ else if (Model.successMessage.Length > 0)
             <button type="submit" class="btn btn-primary">Submit</button>
         </div>
         <div class="col-sm-3 d-grid">
-            <a class="btn btn-outline-primary" href="/Admin/Books/Index" role="button">Cancel</a>
+            <a class="btn btn-outline-primary" href="/Admin/Books/BooksIndex" role="button">Cancel</a>
         </div>
     </div>
 

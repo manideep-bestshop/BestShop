@@ -7,21 +7,71 @@ namespace BestShop.Pages.Admin.books
     public class IndexModel : PageModel
     {
         public List<BookInfo> listBooks = new List<BookInfo>();
+        public string search = "";
+
+
+        public int page = 1; // the current html page
+        public int totalPages = 0;
+        private readonly int pageSize = 5; // books per page
+
         public void OnGet()
         {
-            
-           
-           try
+            search = Request.Query["search"];
+
+            if (search == null) search = "";
+
+            page = 1;
+            string requestPage = Request.Query["page"];
+            if (requestPage != null)
+            {
+                try
+                {
+                    page = int.Parse(requestPage);
+                }
+                catch (Exception ex)
+                {
+                    page = 1;
+                }
+            }
+
+            try
             {
                 string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
-                    string sql = "SELECT * FROM books ORDER BY id DESC";
-                    using(SqlCommand command=new SqlCommand(sql,connection))
+
+                    string sqlCount = "SELECT COUNT(*) FROM books";
+                    if (search.Length > 0)
                     {
-                        using(SqlDataReader reader = command.ExecuteReader())
+                        sqlCount += " WHERE title LIKE @search OR authors LIKE @search";
+                    }
+
+                    using (SqlCommand command = new SqlCommand(sqlCount, connection))
+                    {
+                        command.Parameters.AddWithValue("@search", "%" + search + "%");
+
+                        decimal count = (int)command.ExecuteScalar();
+                        totalPages = (int)Math.Ceiling(count / pageSize);
+                    }
+
+
+                    string sql = "SELECT * FROM books";
+                    if(search.Length>0)
+                    {
+                        sql += " WHERE title LIKE @search OR authors LIKE @search";
+                    }
+                    sql += " ORDER BY id DESC";
+                    sql += " OFFSET @skip ROWS FETCH NEXT @pageSize ROWS ONLY";
+
+                    using (SqlCommand command=new SqlCommand(sql,connection))
+                    {
+                        command.Parameters.AddWithValue("@search","%" +search+ "%");
+                        command.Parameters.AddWithValue("@skip", (page - 1) * pageSize);
+                        command.Parameters.AddWithValue("@pageSize", pageSize);
+
+                        using (SqlDataReader reader = command.ExecuteReader())
                         {
                             while (reader.Read()) 
                             {

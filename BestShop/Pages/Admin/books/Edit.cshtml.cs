@@ -10,6 +10,7 @@ namespace BestShop.Pages.Admin.books
     {
         [BindProperty]
         public int Id { get; set; }
+
         [BindProperty]
         [Required(ErrorMessage = "The Title is required")]
         [MaxLength(100, ErrorMessage = "The Title cannot exceed 100 characters")]
@@ -51,6 +52,11 @@ namespace BestShop.Pages.Admin.books
         public string successMessage = "";
 
         private IWebHostEnvironment webHostEnvironment;
+
+        public EditModel(IWebHostEnvironment env)
+        {
+            webHostEnvironment = env;
+        }
         public void OnGet()
         {
             string requestId = Request.Query["id"];
@@ -63,7 +69,7 @@ namespace BestShop.Pages.Admin.books
                     connection.Open();
                     string sql = "SELECT * FROM books WHERE id=@id";
                     using (SqlCommand command=new SqlCommand(sql,connection))
-                    {
+                    { 
                         command.Parameters.AddWithValue("@id", requestId);
                         using(SqlDataReader reader=command.ExecuteReader()) 
                         {
@@ -81,7 +87,7 @@ namespace BestShop.Pages.Admin.books
                             }
                             else
                             {
-                                Response.Redirect("/Admin/Books/Index");
+                                Response.Redirect("/Admin/Books/BooksIndex");
                             }
                         }
 
@@ -91,7 +97,7 @@ namespace BestShop.Pages.Admin.books
             catch(Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                Response.Redirect("/Admin/Books/Index");
+                Response.Redirect("/Admin/Books/BooksIndex");
             }
         }
         public void OnPost()
@@ -129,7 +135,7 @@ namespace BestShop.Pages.Admin.books
             // update the book data in the database
             try
             {
-                string connectionString = "Data Source=.\\sqlexpress;Initial Catalog=bestshop;Integrated Security=True";
+                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
@@ -163,7 +169,7 @@ namespace BestShop.Pages.Admin.books
           
 
             successMessage = "data updated correctly..";
-            Response.Redirect("/Admin/books/Index");
+            Response.Redirect("/Admin/books/BooksIndex");
         }
     }
 }

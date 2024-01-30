@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 
 namespace BestShop.Pages.Admin.books
 {
-    public class Index1Model : PageModel
+    public class CreateModel : PageModel
     {
         [BindProperty]
         [Required(ErrorMessage = "The Title is required")]
@@ -47,17 +46,15 @@ namespace BestShop.Pages.Admin.books
         public string successMessage = "";
 
         private IWebHostEnvironment webHostEnvironment;
-
         public CreateModel(IWebHostEnvironment env)
         {
-            webHostEnvironment = env;
+            webHostEnvironment = env;   
         }
-
-
         public void OnGet()
         {
+          
+           
         }
-
         public void OnPost()
         {
             if (!ModelState.IsValid)
@@ -70,12 +67,12 @@ namespace BestShop.Pages.Admin.books
 
             if (Description == null) Description = "";
 
-            // save the image file on the server
+            //save the image file on the server
             string newFileName = DateTime.Now.ToString("yyyyMMddHHmmssfff");
             newFileName += Path.GetExtension(ImageFile.FileName);
 
             string imageFolder = webHostEnvironment.WebRootPath + "/images/books/";
-
+           
             string imageFullPath = Path.Combine(imageFolder, newFileName);
             Console.WriteLine("New image: " + imageFullPath);
 
@@ -84,7 +81,8 @@ namespace BestShop.Pages.Admin.books
                 ImageFile.CopyTo(stream);
             }
 
-            // save the new book in the database
+            //save the new book in the database
+
             try
             {
                 string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
@@ -118,7 +116,7 @@ namespace BestShop.Pages.Admin.books
             }
 
             successMessage = "Data saved correctly";
-            Response.Redirect("/Admin/Books/Index");
+            Response.Redirect("/Admin/Books/BooksIndex");
         }
     }
 }
