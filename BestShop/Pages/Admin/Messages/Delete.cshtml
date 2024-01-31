@@ -1,6 +1,7 @@
 ﻿@page
 @using System.Data.SqlClient
 @using BestShop.Myhelper
+@attribute [RequireAuth(RequiredRole = "admin")]
 @{
 
     string id = Request.Query["id"];

@@ -1,3 +1,4 @@
+using BestShop.Myhelper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
@@ -7,6 +8,7 @@ using System.Data.SqlClient;
 
 namespace BestShop.Pages.Auth
 {
+    [RequireNoAuth]
     [BindProperties]
     public class LoginModel : PageModel
     {
@@ -19,16 +21,7 @@ namespace BestShop.Pages.Auth
         public string errorMessage = "";
         public string successMessage = "";
 
-		public override void OnPageHandlerExecuting(PageHandlerExecutingContext context)
-		{
-			base.OnPageHandlerExecuting(context);
-
-            if (HttpContext.Session.GetString("role") != null)
-            {
-                //the user is already authenticated => redirect the user to home page
-                context.Result = new RedirectResult("/");
-            }
-		}
+		
 		public void OnGet()
         {
         }

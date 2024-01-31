@@ -5,6 +5,7 @@ using BestShop.Myhelper;
 
 namespace BestShop.Pages.Admin.Messages
 {
+    [RequireAuth(RequiredRole = "admin")]
     public class DetailsModel : PageModel
     {
         public MessageInfo messageInfo = new MessageInfo();
