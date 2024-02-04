@@ -1,0 +1,64 @@
+﻿@page
+@model BestShop.Pages.SearchBooksModel
+@{
+}
+<h2 class="rounded text-center text-white p-2" style="background-color: #08618d;">List of Books</h2>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="rounded text-white my-2 p-3 sticky-top" style="background-color: #08618d; top:10px;">
+            <h4 class="mb-3">Advanced Search</h4>
+
+            <form>
+                <div class="mb-3">
+                    <label class="form-label">Search</label>
+                    <input type="text" class="form-control" asp-for="Search" placeholder="Search by Title or Author">
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Price</label>
+                    <select class="form-select" asp-for="PriceRange">
+                        <option value="any">Any</option>
+                        <option value="0_200">Under 200</option>
+                        <option value="200_500">200 t0 500</option>
+                        <option value="above500">Above 500</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Pages</label>
+                    <select class="form-select" asp-for="PageRange">
+                        <option value="any">Any</option>
+                        <option value="0_100">Under 100</option>
+                        <option value="100_399">100 t0 399</option>
+                        <option value="above400">Above 400</option>
+                    </select>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label">Category</label>
+                    <select class="form-select" asp-for="Category">
+                        <option value="any">Any</option>
+                        <option value="Mathematics">Mathematics</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Economics">Economics</option>
+                        <option value="Medicine">Medicine</option>
+                        <option value="History">History</option>
+                    </select>
+                </div>
+
+                <div class="row">
+                    <div class="col d-grid">
+                        <button type="submit" class="btn btn-outline-light">Search</button>
+                    </div>
+                    <div class="col d-grid">
+                        <a class="btn btn-outline-light" href="/Books" role="button">Clear</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-8">
+       
+    </div>
+</div>
