@@ -12,15 +12,15 @@
             <form>
                 <div class="mb-3">
                     <label class="form-label">Search</label>
-                    <input type="text" class="form-control" asp-for="Search" placeholder="Search by Title or Author">
+                    <input type="text" class="form-control" name="search" asp-for="Search" placeholder="Search by Title or Author">
                 </div>
 
                 <div class="mb-3">
                     <label class="form-label">Price</label>
                     <select class="form-select" asp-for="PriceRange">
                         <option value="any">Any</option>
-                        <option value="0_200">Under 200</option>
-                        <option value="200_500">200 t0 500</option>
+                        <option value="0_199">Under 200</option>
+                        <option value="200_499">200 t0 500</option>
                         <option value="above500">Above 500</option>
                     </select>
                 </div>
@@ -29,7 +29,7 @@
                     <label class="form-label">Pages</label>
                     <select class="form-select" asp-for="PageRange">
                         <option value="any">Any</option>
-                        <option value="0_100">Under 100</option>
+                        <option value="0_99">Under 100</option>
                         <option value="100_399">100 t0 399</option>
                         <option value="above400">Above 400</option>
                     </select>
@@ -52,13 +52,51 @@
                         <button type="submit" class="btn btn-outline-light">Search</button>
                     </div>
                     <div class="col d-grid">
-                        <a class="btn btn-outline-light" href="/Books" role="button">Clear</a>
+                        <a class="btn btn-outline-light" href="/SearchBooks" role="button">Clear</a>
                     </div>
                 </div>
             </form>
         </div>
     </div>
     <div class="col-md-8">
-       
+       <table class="table align-middle">
+           @foreach(var item in Model.listBooks)
+            {
+                <tbody>
+                    <tr>
+                        <td style="width:200px">
+                            <img src="/images/books/@item.ImageFileName" class="img-fluid rounded" alt="..." />
+
+                        </td>
+                        <td>
+                            <h3>Title</h3>
+                            <p>
+                                Authors: @item.Authors
+                                Category: @item.Category
+                                Pages: @item.NumPages
+                            </p>
+                            <h4>Rs.@item.Price</h4>
+                            <a class="btn btn-primary btn-sm my-2" href="/BookDetails?id=@(item.Id)" role="button">Details</a>
+                            <button type="button" class="btn btn-warning btn-sm my-2" onclick="addToCart(this, @item.Id)">
+                                Add to Cart <i class="bi bi-cart4"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+
+            }
+       </table>
+
+        <nav aria-label="Page navigation example">
+            <ul class="pagination">
+                @for(int i=1;i<=Model.totalPages;i++)
+                {
+                    <li class="page-item"><a class="page-link" href="?page=@(i)&Search=@(Model.Search)&PriceRange@(Model.PriceRange)&PageRange=@(Model.PageRange)&Category=@(Model.Category)">@i </a></li>
+
+                }
+                
+            </ul>
+        </nav>
+
     </div>
 </div>
