@@ -8,6 +8,13 @@ namespace BestShop.Pages.Admin.books
     [RequireAuth(RequiredRole = "admin")]
     public class IndexModel : PageModel
     {
+        private readonly string connectionString;
+
+        public IndexModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public List<BookInfo> listBooks = new List<BookInfo>();
         public string search = "";
 
@@ -38,7 +45,7 @@ namespace BestShop.Pages.Admin.books
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {

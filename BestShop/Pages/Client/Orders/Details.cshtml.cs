@@ -9,6 +9,13 @@ namespace BestShop.Pages.Client.Orders
     [RequireAuth(RequiredRole = "client")]
     public class DetailsModel : PageModel
     {
+        private readonly string connectionString;
+
+        public DetailsModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public OrderInfo orderInfo = new OrderInfo();
 
         public void OnGet(int id)
@@ -24,7 +31,7 @@ namespace BestShop.Pages.Client.Orders
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+             //   string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

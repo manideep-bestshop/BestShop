@@ -7,6 +7,14 @@ namespace BestShop.Pages
 {
     public class BookDetailsModel : PageModel
     {
+      
+        private readonly string connectionString;
+
+        public BookDetailsModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public BookInfo bookInfo = new BookInfo(); 
         public void OnGet(int? id)
         {
@@ -17,7 +25,7 @@ namespace BestShop.Pages
             }
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 
                 using(SqlConnection connection = new SqlConnection(connectionString))
                 {

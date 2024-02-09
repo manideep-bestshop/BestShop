@@ -1,0 +1,26 @@
+﻿@page
+@model BestShop.Pages.CheckoutModel
+@{
+    ViewData["NoContainer"] = true;
+}
+<div class="p-s" style="background-color:#08618d;">
+    <div class="mx-auto p-3 bg-light rounded border" style="width:420px;">
+       <h2 class="text-center mb-5">Complete your order</h2>
+       <div class="row mb-3">
+           <div class="col-5">Delivery Address</div>
+           <div class="col-7">@Model.DeliveryAddress</div>
+       </div>
+        <div class="row mb-3">
+            <div class="col-5">Total Amount</div>
+            <div class="col-7">Rs.@Model.Total</div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-5">Quantity</div>
+            <div class="col-7">@(Model.ProductIdentifiers.Split("-").Length)</div>
+        </div>
+        <br />
+        <div id="notification-container"></div>
+        <div id="paypal-button-container"></div>
+    </div>
+
+</div>

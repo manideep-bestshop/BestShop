@@ -13,7 +13,16 @@ namespace BestShop.Pages.Auth
 	[BindProperties]
     public class RegisterModel : PageModel
     {
-		[Required(ErrorMessage = "The First Name is required")]
+
+        private readonly string connectionString;
+
+        public RegisterModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+
+        [Required(ErrorMessage = "The First Name is required")]
 		public string Firstname { get; set; } = "";
 
 		[Required(ErrorMessage = "The Last Name is required")]
@@ -56,7 +65,7 @@ namespace BestShop.Pages.Auth
 			if (Phone == null) Phone = "";
 
 			//add the user details to the database
-			string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+			//string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 			try
 			{
 				using(SqlConnection connection=new SqlConnection(connectionString))
@@ -101,7 +110,7 @@ namespace BestShop.Pages.Auth
 			string message = "Dear " + username + ",\n\n" +
 				"Your account has been created successfully..\n\n" +
 				"Best Regards";
-			EmailSender.SendEmail(Email, username, subject, message).Wait();
+			EmailSender.SendEmail(Email, username, subject, message);
 
 			//initiate the authenticated session=> add the user details to the session data
 			try

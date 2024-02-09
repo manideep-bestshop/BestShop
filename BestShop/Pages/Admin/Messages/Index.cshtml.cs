@@ -9,6 +9,13 @@ namespace BestShop.Pages.Admin.Messages
     [RequireAuth(RequiredRole = "admin")]
     public class IndexModel : PageModel
     {
+        private readonly string connectionString;
+
+        public IndexModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public List<MessageInfo> listMessages = new List<MessageInfo>();
 
         public int page = 1; // the current html page
@@ -32,7 +39,7 @@ namespace BestShop.Pages.Admin.Messages
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

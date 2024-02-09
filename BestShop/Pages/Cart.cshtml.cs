@@ -9,6 +9,13 @@ namespace BestShop.Pages
     [BindProperties]
     public class CartModel : PageModel
     {
+        private readonly string connectionString;
+
+        public CartModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         [Required(ErrorMessage = "The Address is required")]
         public string Address { get; set; } = "";
 
@@ -102,7 +109,7 @@ namespace BestShop.Pages
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -152,6 +159,10 @@ namespace BestShop.Pages
             }
 
             Address = HttpContext.Session.GetString("address") ?? "";
+
+            TempData["Total"] =""+ total;
+            TempData["ProductIdentifiers"] = "";
+            TempData["DeliveryAddress"] = "";
         }
 
 
@@ -181,10 +192,19 @@ namespace BestShop.Pages
                 return;
             }
 
+            string productIdentifiers = Request.Cookies["shopping_cart"] ?? "";
+            TempData["ProductIdentifiers"]=productIdentifiers;
+            TempData["DeliveryAddress"] = Address;
+
+            if(PaymentMethod=="credit_card" || PaymentMethod=="paypal")
+            {
+                Response.Redirect("/Checkout");
+                return;
+            }
             // save the order in the database
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -249,7 +269,7 @@ namespace BestShop.Pages
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
                     connection.Open();

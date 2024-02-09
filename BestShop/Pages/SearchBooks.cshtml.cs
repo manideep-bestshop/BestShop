@@ -8,6 +8,13 @@ namespace BestShop.Pages
     [BindProperties(SupportsGet =true)]
     public class SearchBooksModel : PageModel
     {
+        private readonly string connectionString;
+
+        public SearchBooksModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public string? Search { get; set; }
         public string PriceRange { get; set; } = "any";
         public string PageRange { get; set; }= "any";
@@ -36,7 +43,7 @@ namespace BestShop.Pages
             }
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using(SqlConnection connection=new SqlConnection(connectionString))
                 {

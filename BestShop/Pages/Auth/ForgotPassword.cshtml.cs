@@ -10,6 +10,13 @@ namespace BestShop.Pages.Auth
     [RequireNoAuth]
     public class ForgotPasswordModel : PageModel
     {
+        private readonly string connectionString;
+
+        public ForgotPasswordModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         [BindProperty, Required(ErrorMessage = "The Email is required"), EmailAddress]
         public string Email { get; set; } = "";
 
@@ -30,7 +37,7 @@ namespace BestShop.Pages.Auth
             // 1)craete token,2)save token in the database 3) send token by email to the user
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+                //string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using(SqlConnection connection = new SqlConnection(connectionString)) 
                 {
                     connection.Open();
@@ -42,8 +49,8 @@ namespace BestShop.Pages.Auth
                         {
                             if(reader.Read())
                             {
-                                string firstname=reader.GetString(0);
-                                string lastname = reader.GetString(1);
+                                string firstname=reader.GetString(1);
+                                string lastname = reader.GetString(2);
 
                                 string token=Guid.NewGuid().ToString();
 
@@ -59,7 +66,7 @@ namespace BestShop.Pages.Auth
                                     resetUrl + "\n\n" +
                                     "Best Regards";
 
-                                EmailSender.SendEmail(Email, username, subject, message).Wait();
+                                EmailSender.SendEmail(Email, username, subject, message);
                             }
                             else
                             {
@@ -81,14 +88,14 @@ namespace BestShop.Pages.Auth
         {
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 
                 using(SqlConnection connection=new SqlConnection(connectionString))
                 {
                     connection.Open();
 
                     //delete any old token for this email address from the database
-                    string sql = "DELETE FROM paaswor_resets WHERE email=@email";
+                    string sql = "DELETE FROM password_resets WHERE email=@email";
                     using(SqlCommand command=new SqlCommand(sql,connection))
                     {
                         command.Parameters.AddWithValue("@email",email);
@@ -111,6 +118,9 @@ namespace BestShop.Pages.Auth
                 errorMessage = ex.Message;
                 return;
             }
+            //redirect to the home page
+           
+
         }
     }
 }

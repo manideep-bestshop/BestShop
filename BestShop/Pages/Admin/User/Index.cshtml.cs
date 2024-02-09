@@ -8,6 +8,14 @@ namespace BestShop.Pages.Admin.User
     [RequireAuth(RequiredRole ="admin")]
     public class IndexModel : PageModel
     {
+
+        private readonly string connectionString;
+
+        public IndexModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public List<UserInfo> listUsers=new List<UserInfo>();
 
         public int page = 1; //current html page
@@ -28,7 +36,7 @@ namespace BestShop.Pages.Admin.User
                     page = 1;
                 }
             }
-            string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+          //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 		    
             using(SqlConnection connection=new SqlConnection(connectionString))
             {

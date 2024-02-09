@@ -1,23 +1,35 @@
-﻿using SendGrid;
+﻿using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.IdentityModel.Tokens;
+using SendGrid;
 using SendGrid.Helpers.Mail;
+using System.Net;
+using System.Net.Mail;
 
 namespace BestShop.Myhelper
 {
     public class EmailSender
     {
-        public static async Task SendEmail(string toEmail,string username,string subject
-            ,string message)
+        public static void SendEmail(string toEmail, string username, string subject
+            , string message)
         {
-            string apiKey = "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";
-            var client=new SendGridClient(apiKey);
+            string fromMail = "nmanideep1015@gmail.com";
+            string fromPassword = "iwzfhxfrmjahomcu";
 
-            var from=new EmailAddress("boostmytool@gmail.com", "BestShop.com");
-            var to = new EmailAddress(toEmail, username);
-            var plainTextContent = message;
-            var htmlContent = "";
+            MailMessage msg=new MailMessage();
+            msg.From = new MailAddress(fromMail);
+            msg.Subject = subject;
+            msg.To.Add(new MailAddress(toEmail));
+            msg.Body = message;
+            msg.IsBodyHtml=true;
 
-            var msg = MailHelper.CreateSingleEmail(from,to,subject,plainTextContent,htmlContent);
-            var response = await client.SendEmailAsync(msg);
+            var smtpClient = new SmtpClient("smtp.gmail.com")
+            {
+                Port = 587,
+                Credentials = new NetworkCredential(fromMail, fromPassword),
+                EnableSsl = true,
+            };
+
+            smtpClient.Send(msg);
         }
     }
 }

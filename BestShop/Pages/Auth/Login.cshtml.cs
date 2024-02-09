@@ -12,6 +12,13 @@ namespace BestShop.Pages.Auth
     [BindProperties]
     public class LoginModel : PageModel
     {
+        private readonly string connectionString;
+        public LoginModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+
         [Required(ErrorMessage ="The Email is Required"),EmailAddress]
         public string Email { get; set; } = "";
 
@@ -24,6 +31,11 @@ namespace BestShop.Pages.Auth
 		
 		public void OnGet()
         {
+            if (TempData["passwordUpdate"]!=null)
+            {
+                successMessage = TempData["passwordUpdate"].ToString() ?? "";
+            }
+           
         }
 
         public void OnPost()
@@ -38,7 +50,7 @@ namespace BestShop.Pages.Auth
             //connect to data base and check the users credentials
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+                //string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using(SqlConnection connection=new SqlConnection(connectionString))
                 {
                     connection.Open();

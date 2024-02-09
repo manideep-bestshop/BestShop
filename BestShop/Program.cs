@@ -1,4 +1,12 @@
+using BestShop.Myhelper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Logging.AddLog4Net(); 
+
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -13,6 +21,7 @@ builder.Services.AddSession(options =>
 });
 
 var app = builder.Build();
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -8,6 +8,13 @@ namespace BestShop.Pages.Admin.Messages
     [RequireAuth(RequiredRole = "admin")]
     public class DetailsModel : PageModel
     {
+        private readonly string connectionString;
+
+        public DetailsModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         public MessageInfo messageInfo = new MessageInfo();
         public void OnGet()
         {
@@ -15,7 +22,7 @@ namespace BestShop.Pages.Admin.Messages
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {

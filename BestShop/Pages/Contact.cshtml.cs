@@ -11,6 +11,12 @@ namespace BestShop.Pages
 {
     public class ContactModel : PageModel
     {
+        private readonly string connectionString;
+
+        public ContactModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
         public void OnGet()
         {
         }
@@ -69,7 +75,7 @@ namespace BestShop.Pages
             // add this message to database
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;Initial Catalog=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;Initial Catalog=bestshop;Integrated Security=True;";
                 using(SqlConnection connection=new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -97,14 +103,14 @@ namespace BestShop.Pages
 
             //send confirmation message to client
             string username = FirstName + " " + LastName;
-            string emailSubject = "About your message";
-            string emailMessage = "Dear " + username + ",\n" +
-                "We received your message.Thank you for contacting us..\n" +
+            string emailSubject = "BestShop App";
+            string emailMessage = "Dear " + username + ",</br>" +
+                "We received your message.Thank you for contacting us..</br>" +
                 "our team will contact you soon.\n" +
                 "Best Regards\n\n" +
                 "Your message:\n" + Message;
 
-            EmailSender.SendEmail(Email, username, emailSubject, emailMessage).Wait();
+            EmailSender.SendEmail(Email, username, emailSubject, emailMessage);
      
             SuccessMessage = "Your message has been recieved correctly..";
 

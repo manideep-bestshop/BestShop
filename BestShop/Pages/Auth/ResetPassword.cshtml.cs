@@ -10,6 +10,14 @@ namespace BestShop.Pages.Auth
     [RequireNoAuth]
     public class ResetPasswordModel : PageModel
     {
+        private readonly string connectionString;
+
+        public ResetPasswordModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+
         [BindProperty, Required(ErrorMessage = "Password is required")]
         [StringLength(50, ErrorMessage = "Password must be between 5 and 50 characters", MinimumLength = 5)]
         public string Password { get; set; } = "";
@@ -45,7 +53,7 @@ namespace BestShop.Pages.Auth
             //connect the database and update the password
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
                 using(SqlConnection connection=new SqlConnection(connectionString))
                 {
                     connection.Open();
@@ -99,6 +107,10 @@ namespace BestShop.Pages.Auth
                 return;
             }
             successMessage = "Password updated successfully..";
+            //redirect to the home page
+            TempData["passwordUpdate"] = "Password updated successfully..";
+            Response.Redirect("/Auth/Login");
+
         }
     }
 }

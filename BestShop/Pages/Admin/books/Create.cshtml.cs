@@ -9,6 +9,17 @@ namespace BestShop.Pages.Admin.books
     [RequireAuth(RequiredRole ="admin")]
     public class CreateModel : PageModel
     {
+        // database connection string
+
+        private readonly string connectionString;
+
+        public CreateModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+
+
         [BindProperty]
         [Required(ErrorMessage = "The Title is required")]
         [MaxLength(100, ErrorMessage = "The Title cannot exceed 100 characters")]
@@ -87,7 +98,7 @@ namespace BestShop.Pages.Admin.books
 
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {

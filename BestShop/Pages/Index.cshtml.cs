@@ -7,6 +7,16 @@ namespace BestShop.Pages
 {
     public class IndexModel : PageModel
     {
+
+
+        private readonly string connectionString;
+
+        public IndexModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+
         public List<BookInfo> listNewestBooks = new List<BookInfo>();
         public List<BookInfo> listTopSales = new List<BookInfo>();
 
@@ -14,7 +24,7 @@ namespace BestShop.Pages
         {
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+               // string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
             
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {

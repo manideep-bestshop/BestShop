@@ -10,6 +10,13 @@ namespace BestShop.Pages.Admin.books
     [RequireAuth(RequiredRole = "admin")]
     public class EditModel : PageModel
     {
+        private readonly string connectionString;
+
+        public EditModel(IConfiguration configuration)
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
         [BindProperty]
         public int Id { get; set; }
 
@@ -64,7 +71,7 @@ namespace BestShop.Pages.Admin.books
             string requestId = Request.Query["id"];
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using(SqlConnection connection=new SqlConnection(connectionString))
                 {
@@ -137,7 +144,7 @@ namespace BestShop.Pages.Admin.books
             // update the book data in the database
             try
             {
-                string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
+              //  string connectionString = "Data Source=DESKTOP-7T0EOMO;database=bestshop;Integrated Security=True;";
 
                 using (SqlConnection connection = new SqlConnection(connectionString))
                 {
