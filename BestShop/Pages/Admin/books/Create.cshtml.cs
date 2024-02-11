@@ -13,11 +13,6 @@ namespace BestShop.Pages.Admin.books
 
         private readonly string connectionString;
 
-        public CreateModel(IConfiguration configuration)
-        {
-            connectionString = configuration.GetConnectionString("DefaultConnection");
-        }
-
 
 
         [BindProperty]
@@ -59,10 +54,12 @@ namespace BestShop.Pages.Admin.books
         public string successMessage = "";
 
         private IWebHostEnvironment webHostEnvironment;
-        public CreateModel(IWebHostEnvironment env)
+        public CreateModel(IWebHostEnvironment env, IConfiguration configuration)
         {
-            webHostEnvironment = env;   
-        }
+            webHostEnvironment = env;
+			connectionString = configuration.GetConnectionString("DefaultConnection");
+
+		}
         public void OnGet()
         {
           

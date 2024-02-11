@@ -10,10 +10,19 @@ namespace BestShop.Pages
 
 
         private readonly string connectionString;
+        private readonly ILogger<IndexModel> _logger;    
 
-        public IndexModel(IConfiguration configuration)
+        public IndexModel(IConfiguration configuration,ILogger<IndexModel> logger)
         {
-            connectionString = configuration.GetConnectionString("DefaultConnection");
+            _logger = logger;
+
+			_logger.LogDebug("Hey, this is a DEBUG message.");
+			_logger.LogInformation("Hey, this is an INFO message.");
+			_logger.LogWarning("Hey, this is a WARNING message.");
+			_logger.LogError("Hey, this is an ERROR message.");
+
+
+			connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
 

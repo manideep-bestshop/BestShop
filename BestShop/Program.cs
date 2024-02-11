@@ -1,12 +1,24 @@
+using BestShop;
 using BestShop.Myhelper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Logging.AddLog4Net(); 
+//builder.Logging.AddLog4Net("log4net.config");
 
+//logging
+
+static IHostBuilder CreateHostBuilder(string[] args) =>
+      Host.CreateDefaultBuilder(args)
+
+
+         .ConfigureLogging(builder =>
+         {
+             builder.AddLog4Net("log4net.config");
+         });
 
 // Add services to the container.
 builder.Services.AddRazorPages();
